@@ -1,0 +1,10 @@
+/* Estilo predeterminado */
+.toggle-button{
+    -fx-background-color: #939190; /* Azul */
+
+}
+
+/* Estilo cuando la pseudo-clase 'selected' está activa */
+.toggle-button:active {
+    -fx-background-color: #b6b9ba; /* Verde */
+}

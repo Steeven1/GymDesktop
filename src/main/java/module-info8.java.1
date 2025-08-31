@@ -1,0 +1,11 @@
+module org.steevenengracia.gymdesktop {
+  requires java.logging;
+  requires javafx.fxml;
+  requires org.kordamp.ikonli.javafx;
+  requires javafx.controls;
+
+  opens org.steevenengracia.gymdesktop to javafx.fxml;
+  exports org.steevenengracia.gymdesktop;
+  opens org.steevenengracia.gymdesktop.home to javafx.fxml;
+  exports org.steevenengracia.gymdesktop.home;
+}
