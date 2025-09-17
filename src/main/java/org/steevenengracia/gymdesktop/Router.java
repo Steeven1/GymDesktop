@@ -1,13 +1,17 @@
 package org.steevenengracia.gymdesktop;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.steevenengracia.gymdesktop.components.toggleButton.FadeAnimation;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,47 +36,51 @@ public class Router {
   }
 
   // Registrar una nueva ruta
-  public void registerRoute(String routeName, String fxmlPath) {
+  private void registerRoute(String routeName, String fxmlPath) {
     routes.put( routeName, fxmlPath );
   }
 
-  public void navigateTo(String routeName, Node node, Stage stage) throws IOException {
+  public void navigateTo(String routeName, Node navigable, Stage stage) throws IOException {
 
-      FXMLLoader loader = new FXMLLoader( getClass().getResource( routes.get( routeName) ) );
-      Parent root = loader.load();
-      if (stage != null) {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource(routes.get(routeName)));
+    Parent to = loader.load();
+    if (stage != null) {
 
-        // 3. Crear la nueva Scene con el contenido de la página principal
-        //Scene scene = new Scene( root );
+      // 3. Crear la nueva Scene con el contenido de la página principal
+      //Scene scene = new Scene( root );
 
-        // 4. Mostrar la nueva Scene en la ventana
-        //stage.setScene( scene );
-        //stage.show();
-        Scene currentScene = stage.getScene();
-        if (currentScene != null) {
-          // Crear una animación de desvanecimiento para la vista actual
-          FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), currentScene.getRoot());
-          fadeOut.setFromValue( 1 );
-          fadeOut.setToValue( 0 );
-          fadeOut.setOnFinished(event -> {
-            // Cambiar la escena después de la animación
-            Scene newScene = new Scene( root );
-            stage.setScene( newScene );
+      // 4. Mostrar la nueva Scene en la ventana
+      //stage.setScene( scene );
+      //stage.show();
+      Scene currentScene = stage.getScene();
+      if (currentScene != null) {
+        FadeAnimation fadeAnimation = new FadeAnimation( 0, -30 );
+          fadeAnimation.out(
+            currentScene.getRoot(), ()->{
+              // Cambiar la escena después de la animación
+              Scene newScene = new Scene( to );
+              stage.setScene(newScene);
 
-            // Animación de entrada para la nueva vista
-            FadeTransition fadeIn = new FadeTransition( Duration.seconds(0.5 ), newScene.getRoot());
-            fadeIn.setFromValue( 0 );
-            fadeIn.setToValue( 1 );
-            fadeIn.play();
-          });
-          fadeOut.play();
-        }
-
-        if (node instanceof Pane pane) {
-          pane.getChildren().clear();
-          pane.getChildren().setAll( root );
-        }
-     }
+              fadeAnimation.in( to );
+            }
+          );
+      }
     }
+
+    if (navigable instanceof StackPane main) {
+
+      FadeAnimation fadeAnimation1 = new FadeAnimation(0, -10 );
+      fadeAnimation1.out(
+            main, ()->{
+              // Cambiar la escena después de la animación
+              main.getChildren().clear();
+              main.getChildren().setAll( to );
+
+              fadeAnimation1.in( main );
+            }
+          );
+
+    }
+  }
 
 }

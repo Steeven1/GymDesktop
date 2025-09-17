@@ -12,9 +12,7 @@
             fx:controller="org.steevenengracia.gymdesktop.auth.login.Login"
             prefHeight="400.0" prefWidth="600.0">
 <children>
-    <Label text="Login works">
 
-    </Label>
-    <Button text="login" fx:id="btnLogin" onAction="#login"></Button>
+    <Button text="login" fx:id="btnLogin" onAction="#login"/>
 </children>
 </Pane>

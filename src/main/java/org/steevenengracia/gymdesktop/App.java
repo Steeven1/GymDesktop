@@ -32,9 +32,6 @@ public class App implements Initializable {
   @FXML
   private VBox vMenu;
 
-
-  @FXML
-  private BorderPane app;
   private HashMap<String, Route> routes;
 
   private boolean isSignIn = false;
@@ -119,7 +116,26 @@ public class App implements Initializable {
       return;
     }
 
+    String path = routes.get( navigateTo ).pathRoute();
+    FXMLLoader loader = new FXMLLoader( getClass().getResource( path ) );
+    Parent newView = loader.load();
 
+    Router.getInstance().navigateTo( navigateTo, main, null );
+
+//    if( main.getChildren().get(0) != null){
+//      System.out.print("vista actual");
+//    }
+
+  }
+
+  public void rute(String navigateTo) throws IOException {
+    navigateTo = navigateTo.toLowerCase();
+
+
+    if( !routes.containsKey( navigateTo ) ) {
+      System.out.println("Route not found: " + navigateTo);
+      return;
+    }
 
     String path = routes.get( navigateTo ).pathRoute();
     FXMLLoader loader = new FXMLLoader( getClass().getResource( path ) );
@@ -127,8 +143,8 @@ public class App implements Initializable {
 
     // Animación de salida (translate + fade out)
     TranslateTransition translateOut = new TranslateTransition(Duration.seconds(0.3), main);
-    translateOut.setFromX(0);
-    translateOut.setToX(-30);
+    translateOut.setFromY(0);
+    translateOut.setToY(-30);
 
     FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), main);
     fadeOut.setFromValue(1.0);
@@ -142,8 +158,8 @@ public class App implements Initializable {
 
       // Animación de entrada (translate + fade in)
       TranslateTransition translateIn = new TranslateTransition( Duration.seconds(0.3), main );
-      translateIn.setFromX(30);
-      translateIn.setToX(0);
+      translateIn.setFromY(30);
+      translateIn.setToY(0);
 
       FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3), main);
       fadeIn.setFromValue(0.0);

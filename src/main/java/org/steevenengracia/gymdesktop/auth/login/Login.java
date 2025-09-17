@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.steevenengracia.gymdesktop.Router;
+import org.steevenengracia.gymdesktop.components.toggleButton.FadeAnimation;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +28,8 @@ public class Login implements Initializable {
   public void login(javafx.event.ActionEvent actionEvent) throws IOException {
 
     //AuthSession.getInstance().setUsername("username");
+
+
     Router.getInstance()
       .navigateTo( "app", null, (Stage) login.getScene().getWindow() );
   }

@@ -15,7 +15,7 @@ public class Home implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    String u = AuthSession.getInstance().getUsername();
-    System.out.print( u );
+    //String u = AuthSession.getInstance().getUsername();
+    System.out.print( "home" );
   }
 }
