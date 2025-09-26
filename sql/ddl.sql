@@ -1,70 +1,112 @@
 
-CREATE TABLE employee(
-  id serial PRIMARY KEY,
-  name VARCHAR(100),
-  salary INT,
-  job_id INT
+
+--autentication
+CREATE TABLE rol(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
 );
 
 
-ALTER TABLE employee ADD FOREIGN KEY(department_id) REFERENCES department(department_id);
+CREATE TABLE employee(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  salary INT
+);
 
---autentication
-CREATE TABLE job(
-  id serial PRIMARY KEY,
-  name VARCHAR(100)
+CREATE TABLE employee_rol(
+  rol_id INT, --fk
+  employee_id INT --fk 
 );
 
 CREATE TABLE action(
-  id serial PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(100)
 );
 
+CREATE TABLE rol_action(
+  rol_id INT, --fk
+  action_id INT --fk
+);
 
-CREATE TABLE policy(
-  id serial PRIMARY KEY,
-  
+CREATE TABLE resource(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+CREATE TABLE resource_action(
+  resource_id INT, --fk
+  action_id INT    --fk
+);
+
+
+
+--temp 
+CREATE TABLE membership(
+  id SERIAL PRIMARY KEY,    
+  name VARCHAR(50),
+  price BIGINT, 
+  duration BIGINT, --(DURATION ON DAYS)
+  started_at DATE,
+  finished_at DATE,
+  created_at DATE  
 );
 
 --clients
 CREATE TABLE client(
   id SERIAL PRIMARY KEY
   name VARCHAR(100),
-  membership BIGINT --foreign key
+  membership_id BIGINT --foreign key
 );
 
---temp 
-CREATE TABLE membership(
+ALTER TABLE client ADD FOREIGN KEY (membership_id) REFERENCES membership(id);
+
+--stock
+CREATE TABLE brand(
+    id SERIAL PRIMARY KEY,    
+    name VARCHAR(50)
+);
+
+CREATE TABLE product(
     id SERIAL PRIMARY KEY,    
     name VARCHAR(50),
-    price BIGINT, 
-    duration BIGINT, --(DURATION ON DAYS)
-    started DATE,
-    finished DATE,
-    created_at DATE
+    qty BIGINT,
+    price BIGINT,
+    brand_id INT, --fk
+    FOREIGN KEY(brand_id) REFERENCES brand(id)
 );
 
-CREATE TABLE type_transaction(
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100)
+
+--finances
+
+CREATE TABLE service(
+  id UUID PRIMARY KEY,
+  name VARCHAR(100),
 );
 
-CREATE TABLE concept_transaction(
+CREATE TABLE billing(
   id SERIAL PRIMARY KEY,
-  name VARCHAR(100)
-);
-
-CREATE TABLE transaction(
-  id SERIAL PRIMARY KEY,
+  client_id BIGINT, -- foreign key
   balance BIGINT,
-  type_transaction BIGINT , --foreign key
-  concept_transaction BIGINT, --foreign key
-  created_at DATE,
-  observations TEXT(200)
-
-  FOREIGN KEY(type_transaction) REFERENCES type_transaction(id)
-  FOREIGN KEY(concept_transaction) REFERENCES concept_transaction(id)
+  creared_at DATE,
+  FOREIGN KEY (client) REFERENCES client(id)
 );
+
+
+CREATE TABLE billing_item(
+  id SERIAL PRIMARY KEY,
+  cost BIGINT,
+  qty BIGINT,
+  billing_id, --fk
+  price BIGINT,
+  total_price BIGINT,
+  item_id INT --fk, id of product or service
+);
+
+
+
+
+
+
 
 
 
