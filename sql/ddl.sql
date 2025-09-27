@@ -66,6 +66,23 @@ CREATE TABLE brand(
     name VARCHAR(50)
 );
 
+CREATE TABLE provider(
+  id SERIAL PRIMARY KEY,    
+  name VARCHAR(50),
+  ruc CHAR(10),
+  address VARCHAR(100),
+  telephone VARCHAR(100),
+  movil CHAR(10),
+  email VARCHAR(100),
+  created_at DATE
+    
+);
+
+CREATE TABLE provider_product(
+  provider_id INT, --FK
+  product_id INT --FK
+);
+
 CREATE TABLE product(
     id SERIAL PRIMARY KEY,    
     name VARCHAR(50),
@@ -76,7 +93,7 @@ CREATE TABLE product(
 );
 
 
---finances
+--billing
 
 CREATE TABLE service(
   id UUID PRIMARY KEY,
